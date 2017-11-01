@@ -22,6 +22,7 @@
 	
 	
 	
+	
 	<link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <script type="text/javascript" src="../use.typekit.net/yjr3mrq.js"></script>
@@ -47,6 +48,25 @@
 	
 	
 	
+	
+	<style>
+		.balloon{
+			width:50px; height:400px; /*풍선이 다 나오도록 높이값 변경*/
+			background:url('balloon_1.png');
+			background-size:100% auto;
+			background-repeat:no-repeat;
+			animation: bMove 8s linear;
+			/*애니메이션이름 bMove 8초동안 가속도없이 일정한 속도로*/
+		}
+
+		@keyframes bMove{
+			0%{ background-position: 0 300px; opacity:0;}
+			20%{opacity:1;}
+			80%{ opacity:1; }
+			100%{ background-position:0 0;opacity:0;}
+			/*백그라운드의 위치가 처음에는 300px만큼 밑에 생겼다가 위로 올라오도록*/
+		}
+	</style>
 	
     </head>
 	
@@ -124,6 +144,40 @@
 		  })();
 		
 		</script>
+	    
+	    
+	    <script>
+	setInterval(attachBalloon,1000);
+	//1. setInterval함수는 특정한 함수를 지정된 시간마다 실행한다. 따라서 attachballoon을 1000밀리세컨드(1초)마다 실행시킨다.
+
+	function attachBalloon(){
+		var t = document.createElement("div");
+		t.setAttribute("class","balloon"); 
+		t.style.position = "absolute"; 
+		t.style.top = randomBH(0,window.innerHeight) + "px";
+		t.style.left = randomBH(0,window.innerWidth) + "px";
+
+		//2. 풍선이 안지워지고 남아있어!!! 풍선을 지워주는 함수를 만들자.
+		t.addEventListener("animationend",remove);
+		//풍선이 끝나는 animationend이벤트를 이런식으로 달아준다(다른형식의 이벤트달기)
+		//애니메이션이 끝나면 remove를 실행해 이런 뜻이다.
+
+		document.body.appendChild(t);		
+	}
+	
+	//3. 지워주기 함수(이건 그냥 복붙 )	
+	function remove(){
+		var t = event.target; //이벤트의 타겟을 t로 지정하고.
+		t.parentNode.removeChild(t); //그 엄마를 찾아서 자식중에 t를 지워라. 
+	}
+
+	//최소값과 최대값 사이의 임의의 숫자를 리턴하는 함수
+	function randomBH(min, max) {
+  		min = Math.ceil(min);
+  		max = Math.floor(max);
+  		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	</script>
         
     </body>
 
